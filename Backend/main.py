@@ -5,6 +5,10 @@ import io
 
 app = FastAPI()
 
+@app.get('/',status_code=status.HTTP_201_CREATED)
+def homepage():
+    return {"message":"works!!!!"}
+
 @app.get('/check_status',status_code=status.HTTP_201_CREATED)
 def root(response:Response):
     try:
