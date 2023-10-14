@@ -6,13 +6,18 @@ import io
 app = FastAPI()
 
 @app.get('/',status_code=status.HTTP_201_CREATED)
-def homepage():
-    return {"message":"works!!!!"}
-
+def homepage(response:Response):
+    try:
+        return {"message":"works!!!!"}
+    except Exception as ex:
+        print(ex)
+        response.status_code = status.HTTP_400_BAD_REQUEST
+        return {"status":400,"message":str(ex)}
+        
 @app.get('/check_status',status_code=status.HTTP_201_CREATED)
 def root(response:Response):
     try:
-        return "Article prediction is in Progress!!"
+        return {"status":200,"message":"Article prediction is in Progress!!"}
     except Exception as ex:
         print(ex)
         response.status_code = status.HTTP_400_BAD_REQUEST
