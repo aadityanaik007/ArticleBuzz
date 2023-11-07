@@ -1,0 +1,23 @@
+Pandas: For data manipulation and analysis.
+Install with: pip install pandas
+
+NumPy: For numerical operations.
+Install with: pip install numpy
+
+Matplotlib: For creating plots and visualizations.
+Install with: pip install matplotlib
+
+Seaborn: For additional data visualization capabilities.
+Install with: pip install seaborn
+
+Scipy: For scientific and statistical operations.
+Install with: pip install scipy
+
+Scikit-Learn (sklearn): For machine learning tasks.
+Install with: pip install scikit-learn
+
+IPython: For interactive computing and displaying results.
+Install with: pip install ipython
+
+XGBoost: For gradient boosting machine learning.
+Install with: pip install xgboost
