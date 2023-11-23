@@ -1,23 +1,40 @@
-Pandas: For data manipulation and analysis.
-Install with: pip install pandas
-
-NumPy: For numerical operations.
-Install with: pip install numpy
-
-Matplotlib: For creating plots and visualizations.
-Install with: pip install matplotlib
-
-Seaborn: For additional data visualization capabilities.
-Install with: pip install seaborn
-
-Scipy: For scientific and statistical operations.
-Install with: pip install scipy
-
-Scikit-Learn (sklearn): For machine learning tasks.
-Install with: pip install scikit-learn
-
-IPython: For interactive computing and displaying results.
-Install with: pip install ipython
-
-XGBoost: For gradient boosting machine learning.
-Install with: pip install xgboost
+appnope==0.1.3
+asttokens==2.4.1
+contourpy==1.2.0
+cycler==0.12.1
+decorator==5.1.1
+exceptiongroup==1.2.0
+executing==2.0.1
+fonttools==4.45.0
+importlib-resources==6.1.1
+ipython==8.17.2
+jedi==0.19.1
+joblib==1.3.2
+kiwisolver==1.4.5
+matplotlib==3.8.2
+matplotlib-inline==0.1.6
+numpy==1.26.2
+packaging==23.2
+pandas==2.1.3
+parso==0.8.3
+pexpect==4.8.0
+Pillow==10.1.0
+prompt-toolkit==3.0.41
+ptyprocess==0.7.0
+pure-eval==0.2.2
+pygments==2.17.2
+pyparsing==3.1.1
+python-dateutil==2.8.2
+pytz==2023.3.post1
+scikit-learn==1.3.2
+scipy==1.11.4
+seaborn==0.13.0
+six==1.16.0
+stack-data==0.6.3
+threadpoolctl==3.2.0
+traitlets==5.13.0
+typing-extensions==4.8.0
+tzdata==2023.3
+wcwidth==0.2.12
+xgboost==2.0.2
+zipp==3.17.0
