@@ -40,12 +40,12 @@ def root(response:Response):
 def import_csv(file: UploadFile = File(...)):
     try:
         dataframe = pd.read_csv(io.StringIO(file.file.read().decode('utf-8')), delimiter=',')
-        print(dataframe.head())
+        top_ten_df = [i.split('/')[-2] for i in dataframe['url'].head(10).tolist()]
         return {"status":status.HTTP_201_CREATED,"model":\
                 [{"xg_boost":{"MAE":2982.32,"RMS":8957.45}},
                 {"some_other_model":{"MAE":3234.32,"RMS":1243.45}},
                 {"some_different_model":{"MAE":3452.32,"RMS":98.45}}
-                ],"no_of_shares":[random.randint(1, 100) for _ in range(10)]}
+                ],"data":[{"number of shares":random.randint(1, 100),"article name":i} for i in top_ten_df]}
     except Exception as ex:
         print(ex)
         return {"status":status.HTTP_400_BAD_REQUEST,"message":str(ex)}
