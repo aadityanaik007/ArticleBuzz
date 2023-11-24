@@ -3,6 +3,7 @@ from fastapi import FastAPI,File,UploadFile,status,Response
 import pandas as pd
 import io 
 from fastapi.middleware.cors import CORSMiddleware
+import random
 
 app = FastAPI()
 origins = [
@@ -40,7 +41,11 @@ def import_csv(file: UploadFile = File(...)):
     try:
         dataframe = pd.read_csv(io.StringIO(file.file.read().decode('utf-8')), delimiter=',')
         print(dataframe.head())
-        return {"status":status.HTTP_201_CREATED,"message":"CSV received!"}
+        return {"status":status.HTTP_201_CREATED,"model":\
+                [{"xg_boost":{"MAE":2982.32,"RMS":8957.45}},
+                {"some_other_model":{"MAE":3234.32,"RMS":1243.45}},
+                {"some_different_model":{"MAE":3452.32,"RMS":98.45}}
+                ],"no_of_shares":[random.randint(1, 100) for _ in range(10)]}
     except Exception as ex:
         print(ex)
         return {"status":status.HTTP_400_BAD_REQUEST,"message":str(ex)}
