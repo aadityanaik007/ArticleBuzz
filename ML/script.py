@@ -166,6 +166,13 @@ def upload_and_train_model(filename):
 
     # Train the model based on train dataset
     final_based_RG = GradientBoostingRegressor(loss='ls')
+    # XGB = XGBRegressor()
+    # XGB.fit(X_train, y_train)
+    # RF = RandomForestRegressor()
+    # RF.fit(X_train, y_train)
+    # KNN = KNeighborsRegressor()
+    # KNN.fit(X_train, y_train)
+    
     final_based_RG.fit(X_train, y_train)
 
     return final_based_RG, X_val, X_test, y_val, y_test
@@ -175,13 +182,18 @@ def predict_news_shares(final_based_RG, test_filename, X_val, X_test, y_val, y_t
     
     y_val_prediction = final_based_RG.predict(X_val)
     y_test_prediction = final_based_RG.predict(X_test)
-    #y_test_arr = list(np.array(y_val))
-    #y_test_pred_arr = list(np.array(y_val_prediction))
+    # y_test_prediction = XGB.predict(X_test)
+    # y_test_prediction = RF.predict(X_test)
+    # y_test_prediction = KNN.predict(X_test)
+    y_test_arr = list(np.array(y_val))
+    y_test_pred_arr = list(np.array(y_val_prediction))
     
     MAE = mean_absolute_error(y_test, y_test_prediction)
     MRSE = mean_squared_error(y_test, y_test_prediction, squared=False)
     print(f'Mean Absolute Error: %.3f' % MAE)
     print(f'Root Mean Square Error: %.3f' % MRSE)
+
+    return y_test_arr, y_test_pred_arr
 
 
 trained_model, X_val, X_test, y_val, y_test = upload_and_train_model(filename)
