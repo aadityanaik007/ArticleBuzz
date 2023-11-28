@@ -48,6 +48,8 @@ pd.set_option('display.max_columns', None)
 
 
 filename = "ML/Dataset/OnlineNews.csv"
+test_filename = "ML/Dataset/test_filename.csv"
+validation_filename = "ML/Dataset/validation_filename.csv"
 
 # UPLOAD API CALL
 def upload_and_train_model(filename):
@@ -164,6 +166,17 @@ def upload_and_train_model(filename):
     X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.2, random_state=1)
     X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.2, random_state=1)
 
+    #df_merged = pd.merge(X_test.head(10), y_test.head(10))
+    #df_merged = X_test.head(10).merge(y_test[['shares']])
+    df_merged = pd.concat([X_test.head(10), y_test.head(10)], axis=1)
+    #print(df_merged)
+    df_merged.to_csv('ML/Dataset/test_filename.csv', index=False)
+    
+    validation_merged = pd.concat([X_val.head(10), y_val.head(10)], axis=1)
+    validation_merged.to_csv('ML/Dataset/validation_filename.csv', index=False)
+    # X_test.head(10).to_csv('X_test.csv', index=False)
+    # y_test.head(10).to_csv('y_test.csv', index=False)
+
     # Train the model based on train dataset
     final_based_RG = GradientBoostingRegressor(loss='absolute_error')
     # XGB = XGBRegressor()
@@ -178,27 +191,34 @@ def upload_and_train_model(filename):
     return final_based_RG, X_val, X_test, y_val, y_test
 
 # Predict API CALL
-def predict_news_shares(final_based_RG, test_filename, X_val, X_test, y_val, y_test):
+def predict_news_shares(final_based_RG, test_filename, validation_filename):
+    
+    test_df = pd.read_csv(test_filename)
+    # Separate X and Y
+    X_test = test_df.drop(['shares'], axis=1).dropna()
+    y_test = test_df['shares'].dropna()
+    #print(X_test)
+    #print(y_test)
+    
+    validation_df = pd.read_csv(test_filename)
+    # Separate X and Y
+    X_val = validation_df.drop(['shares'], axis=1).dropna()
+    y_val = validation_df['shares'].dropna()
     
     y_val_prediction = final_based_RG.predict(X_val)
     y_test_prediction = final_based_RG.predict(X_test)
-    # y_test_prediction = XGB.predict(X_test)
-    # y_test_prediction = RF.predict(X_test)
-    # y_test_prediction = KNN.predict(X_test)
-    y_test_arr = list(np.array(y_val))
-    y_test_pred_arr = list(np.array(y_val_prediction))
+    #y_test_arr = list(np.array(y_val))
+    #y_test_pred_arr = list(np.array(y_val_prediction))
     
     MAE = mean_absolute_error(y_test, y_test_prediction)
     MRSE = mean_squared_error(y_test, y_test_prediction, squared=False)
     print(f'Mean Absolute Error: %.3f' % MAE)
     print(f'Root Mean Square Error: %.3f' % MRSE)
-
-    return y_test_arr, y_test_pred_arr
-
+    return y_test, y_test_prediction
 
 trained_model, X_val, X_test, y_val, y_test = upload_and_train_model(filename)
 
-y_original, y_pred = predict_news_shares(trained_model, filename, X_val, X_test, y_val, y_test)
+y_original, y_pred = predict_news_shares(trained_model, test_filename, validation_filename)
 
-# print('Original Share count values: ', y_original)
-# print('Predicted Share count values: ', y_pred)
+print('Original Share count values: ', y_original)
+print('Predicted Share count values: ', y_pred)
