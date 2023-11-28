@@ -47,7 +47,7 @@ pd.set_option('display.max_columns', None)
 
 
 
-filename = "Dataset/OnlineNews.csv"
+filename = "ML/Dataset/OnlineNews.csv"
 
 # UPLOAD API CALL
 def upload_and_train_model(filename):
@@ -165,7 +165,7 @@ def upload_and_train_model(filename):
     X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.2, random_state=1)
 
     # Train the model based on train dataset
-    final_based_RG = GradientBoostingRegressor(loss='ls')
+    final_based_RG = GradientBoostingRegressor(loss='absolute_error')
     # XGB = XGBRegressor()
     # XGB.fit(X_train, y_train)
     # RF = RandomForestRegressor()
@@ -198,4 +198,7 @@ def predict_news_shares(final_based_RG, test_filename, X_val, X_test, y_val, y_t
 
 trained_model, X_val, X_test, y_val, y_test = upload_and_train_model(filename)
 
-predict_news_shares(trained_model, filename, X_val, X_test, y_val, y_test)
+y_original, y_pred = predict_news_shares(trained_model, filename, X_val, X_test, y_val, y_test)
+
+# print('Original Share count values: ', y_original)
+# print('Predicted Share count values: ', y_pred)
