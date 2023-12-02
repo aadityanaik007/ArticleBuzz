@@ -1,26 +1,113 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>File Upload</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
-  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <title>ArticleBuzz</title>
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    <link href="{{ url_for('static', path='/style.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,500&display=swap">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
+
 <body>
-  <div class="wrapper">
-    <header>Upload File</header>
-    <form action="#">
-      <input class="file-input" type="file" name="file" hidden>
-      <i class="fas fa-cloud-upload-alt"></i>
-      <p>Browse File to Upload</p>
-    </form>
-    <section class="progress-area"></section>
-    <section class="uploaded-area"></section>
-  </div>
+    <div class="main-area">
+        <div class="content">
+            <div class="stage">
+              <header id="header">
+                ArticleBuzz!!!
+              </header>
+            </div>
 
-  <script src="script.js"></script>
+            <style>
+                * *,
+                *::before,
+                *::after {
+                    animation-play-state: running !important;
+                }
+            </style>
+            <script>window.setTimeout = null;</script>
+            <div class="button-container">
+                <input type="file" id="fileInput" accept=".csv" style="display: none;">
+                <button id="uploadButton">Upload CSV File</button>
+                <button id="showGraphButton">Show Graph</button>
+                <button id="downloadButton">Download CSV Data</button>
+                <button id="resetButton">Reset</button>
+            </div>
+            <canvas id="myChart" width="800" height="200"></canvas>
+        </div>
+    </div>
 
+    <script>
+        let xLabels = [];
+        let yShares = [];
+        let csvData = '';
+
+        document.getElementById('uploadButton').addEventListener('click', function () {
+            document.getElementById('fileInput').click();
+        });
+
+        document.getElementById('fileInput').addEventListener('change', async function () {
+            const file = this.files[0];
+            const text = await file.text();
+            csvData = text;
+            processData(text);
+        });
+
+        function processData(data) {
+            xLabels = [];
+            yShares = [];
+
+            const table = data.split('\n').slice(1);
+            table.forEach(row => {
+                const columns = row.split(',');
+                const url = columns[0];
+                xLabels.push(url);
+                const shares = columns[60]; // Adjust column index as per your CSV
+                yShares.push(parseFloat(shares) || 0);
+            });
+        }
+
+        document.getElementById('showGraphButton').addEventListener('click', function () {
+            const ctx = document.getElementById('myChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: xLabels,
+                    datasets: [{
+                        label: 'Article Shares',
+                        data: yShares,
+                        fill: false,
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+
+        document.getElementById('downloadButton').addEventListener('click', function () {
+            const blob = new Blob([csvData], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'downloaded_data.csv';
+            a.click();
+            URL.revokeObjectURL(url);
+        });
+        document.getElementById('resetButton').addEventListener('click', function () {
+            window.location.reload(); // This reloads the current page
+        });
+
+    </script>
 </body>
+
 </html>

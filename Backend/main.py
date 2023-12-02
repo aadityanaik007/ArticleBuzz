@@ -1,15 +1,19 @@
 import uvicorn
-from fastapi import FastAPI,File,UploadFile,status,Response
+from fastapi import FastAPI,File,UploadFile,status,Response,Request
 import pandas as pd
 import io 
 from fastapi.middleware.cors import CORSMiddleware
 import random
+from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 
 app = FastAPI()
 origins = [
     'http://127.0.0.1:5500',
     '*'
 ]
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -18,14 +22,24 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-@app.get('/',status_code=status.HTTP_201_CREATED)
-def homepage(response:Response):
-    try:
-        return {"message":"works!!!!"}
-    except Exception as ex:
-        print(ex)
-        response.status_code = status.HTTP_400_BAD_REQUEST
-        return {"status":400,"message":str(ex)}
+# app.mount("/Frontend", StaticFiles(directory="Frontend"), name="static")
+app.mount("/static", StaticFiles(directory="../Frontend"), name="static")
+templates = Jinja2Templates(directory="../Frontend")
+
+@app.get("/", response_class=HTMLResponse)
+async def homepage(request: Request):
+    return templates.TemplateResponse("home.html",{"request":request,"key":"value"})
+
+# @app.get('/',status_code=status.HTTP_201_CREATED)
+# def homepage(response:Response):
+#     try:
+#         return {"message":"works!!!!"}
+#     except Exception as ex:
+#         print(ex)
+#         response.status_code = status.HTTP_400_BAD_REQUEST
+#         return {"status":400,"message":str(ex)}
+    
+
         
 @app.get('/check_status',status_code=status.HTTP_201_CREATED)
 def root(response:Response):

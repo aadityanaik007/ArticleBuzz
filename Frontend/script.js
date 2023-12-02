@@ -22,7 +22,7 @@ var cancelButton = null;
 
 function uploadFile(name){
   let xhr = new XMLHttpRequest(); //creating new XML object (AJAX)
-  xhr.open("POST", "http://127.0.0.1:8800/get_prediction_for_csv",true); //sending POST request to specifies URL/File
+  xhr.open("POST", "http://54.183.184.209/get_prediction_for_csv",true); //sending POST request to specifies URL/File
   console.log();
   debugger
   xhr.upload.addEventListener("progress", ({loaded, total}) =>{
