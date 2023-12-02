@@ -55,6 +55,13 @@ validation_filename = "ML/Dataset/validation_filename.csv"
 def upload_and_train_model(filename):
     # Read the data
     news_df = pd.read_csv(filename)
+
+    # bucket_name = "articlebuzzbucket"
+    # object_key = "OnlineNews.csv"
+    # s3 = boto3.client('s3', aws_access_key_id="AKIASQ3Z3AROV3BRTJY2",
+    #     aws_secret_access_key="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")
+    # response = s3.get_object(Bucket=bucket_name, Key=object_key)
+    # news_df = pd.read_csv(response['body'].read())
     
     # Data Cleaning
     # remove space character in column name
