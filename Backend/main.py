@@ -7,6 +7,7 @@ import random
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+import time
 
 app = FastAPI()
 origins = [
@@ -22,24 +23,12 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-# app.mount("/Frontend", StaticFiles(directory="Frontend"), name="static")
 app.mount("/static", StaticFiles(directory="../Frontend"), name="static")
 templates = Jinja2Templates(directory="../Frontend")
 
 @app.get("/", response_class=HTMLResponse)
 async def homepage(request: Request):
-    return templates.TemplateResponse("home.html",{"request":request,"key":"value"})
-
-# @app.get('/',status_code=status.HTTP_201_CREATED)
-# def homepage(response:Response):
-#     try:
-#         return {"message":"works!!!!"}
-#     except Exception as ex:
-#         print(ex)
-#         response.status_code = status.HTTP_400_BAD_REQUEST
-#         return {"status":400,"message":str(ex)}
-    
-
+    return templates.TemplateResponse("new_homepage.html",{"request":request,"key":"value"})
         
 @app.get('/check_status',status_code=status.HTTP_201_CREATED)
 def root(response:Response):
@@ -54,12 +43,20 @@ def root(response:Response):
 def import_csv(file: UploadFile = File(...)):
     try:
         dataframe = pd.read_csv(io.StringIO(file.file.read().decode('utf-8')), delimiter=',')
-        top_ten_df = [i.split('/')[-2] for i in dataframe['url'].head(10).tolist()]
+        if dataframe.shape[0]>9:
+            urls = dataframe['url'].head(10).tolist()
+            df = [i.split('/')[-2] for i in urls]
+        elif dataframe.shape[0] ==0:
+            raise Exception("Please provide atleast one article for prediction")
+        else:
+            df = dataframe['url'].to_list()
+        time.sleep(2)
         return {"status":status.HTTP_201_CREATED,"model":\
-                [{"xg_boost":{"MAE":2982.32,"RMS":8957.45}},
-                {"some_other_model":{"MAE":3234.32,"RMS":1243.45}},
-                {"some_different_model":{"MAE":3452.32,"RMS":98.45}}
-                ],"data":[{"number of shares":random.randint(1, 100),"article name":i} for i in top_ten_df]}
+                [{"KNN":{"MAE":2982.32,"RMS":8957.45}},
+                {"RF":{"MAE":3234.32,"RMS":1243.45}},
+                {"GB":{"MAE":3452.32,"RMS":98.45}},
+                {"XGB":{"MAE":2452.32,"RMS":38.45}}
+                ],"data":[{"number_of_shares":random.randint(1, 100),"article_name":i} for i in df]}
     except Exception as ex:
         print(ex)
         return {"status":status.HTTP_400_BAD_REQUEST,"message":str(ex)}

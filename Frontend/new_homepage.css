@@ -1,0 +1,138 @@
+@font-face { 
+    font-family: 'Regular'; 
+    src: 
+        url('fonts/NeueMachina-Regular.otf')  
+        format('opentype'); 
+    font-weight: normal; 
+    font-style: normal; 
+} 
+
+@font-face { 
+    font-family: 'Light'; 
+    src: 
+        url('fonts/NeueMachina-Light.otf')  
+        format('opentype'); 
+    font-weight: normal; 
+    font-style: normal; 
+} 
+
+body, html {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+#backgroundImage {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Send the background image to the back */
+}
+
+#backgroundImage #backImg{
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensure the image covers the entire container without distortion */
+}
+
+.contentDiv {
+    display: flex;
+    flex-direction:column;
+    width: 45rem;
+    height: 400px;
+    margin-top: 220px;
+    margin-left: 150px;
+    font-family: 'Regular' ,'Arial';
+}
+#logo {
+    max-width: 50px; /* Set the maximum width of the logo container */
+    /* margin: 0 auto; Center the logo container */
+    margin-bottom: 10px;
+}
+#logo_image {
+    max-width: 100%; /* Ensure the logo image doesn't exceed the width of its container */
+    height: auto; /* Maintain the aspect ratio of the image */
+}
+
+#Title span{
+    color: White;
+    font-family: 'Regular' ,'Arial'; 
+    font-size: 54px;
+    letter-spacing: 3px;
+}
+
+#Title{
+    margin-bottom: 10px;
+}
+
+#teamdetails span{
+    color: White;
+    letter-spacing: 2px;
+    font-size: 15px;
+    font-family: 'Regular' ,'Arial'; 
+}
+
+#useApplication{
+    color: #12E1B9;
+    border: #12E1B9 solid 1px;
+    padding: 10px;
+    margin-top: 70px;
+    width: 230px;
+    cursor: pointer;
+    letter-spacing: 2px;
+    margin-bottom: 50px;
+    font-family: 'Light' ,'Arial';    
+}
+#linkedLinks{
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Light' ,'Arial';    
+}
+.links{
+    color: #12E1B9;
+    text-decoration: none;
+    letter-spacing: 2px;
+}
+.csv_bar{
+    margin-top: 650px;
+    margin-left: 150px;
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+}
+.csv_tabs{
+    color: #12E1B9;
+    border: #12E1B9 solid 1px;
+    padding: 11px;
+    width: 230px;
+    font-family: 'Light' ,'Arial';    
+    cursor: pointer;
+}
+#graph{
+    margin-left: 150px;
+    margin-top: 50px;
+    width: 80%;
+    padding: 10px;
+    min-height: 500px;
+    height: auto;
+    border: #12E1B9 solid 1px;
+    color: #12E1B9;
+    font-size: 30px;
+    font-family: 'Regular' ,'Arial';    
+    cursor: pointer;
+}
+
+#fileInput{
+    display: none;
+}
+
+#prediction_result{
+    color: #12E1B9;
+}
+
+#Gap{
+    margin-bottom: 550px;
+}

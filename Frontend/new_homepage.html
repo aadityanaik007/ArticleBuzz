@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<!-- <link rel="stylesheet" href="new_homepage.css"> -->
+<link href="{{ url_for('static', path='/new_homepage.css') }}" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/1.33.1/plotly.min.js" integrity="sha512-V0j9LhrK9IMNdFYZqh+IqU4cjo7wdxyHNyH+L0td4HryBuZ7Oq6QxP2/CWr6TituX31+gv5PnolvERuTbz8UNA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- <link href="{{ url_for('static', path='/style.css') }}" rel="stylesheet"> -->
+<script src="{{ url_for('static', path='/new_homepage.js') }}"></script>
+<!-- <script src="new_homepage.js"></script> -->
+
+<body>
+    <div id="backgroundImage">
+        <img src="{{ url_for('static', path='images/background_image.jpeg') }}" alt="" srcset="" id="backImg">
+    </div>
+    <div class="contentDiv">
+        <div id="logo">
+            <img src="{{ url_for('static', path='images/logo.jpeg') }}" alt="" srcset="" id="logo_image">
+        </div>
+        <div id="Title">
+            <span>ARTICLEBUZZ</span>
+        </div>
+        <div id="teamdetails">
+            <span>USING AWS TO SCALE AND CONNECT PREDICTION MODELS</span>
+        </div>
+        <div id="useApplication" onclick="scrollToBottom()">
+            <span>TRY ME &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;></span>
+        </div>
+        <div id="linkedLinks">
+            <a href="https://www.linkedin.com/in/aadityasnaik" class="links">@AADITYA NAIK</a>
+            <a href="https://www.linkedin.com/in/vaishnavi-bacha" class="links">@VAISHNAVI BACHA</a>
+            <a href="https://www.linkedin.com/in/sumit-rodrigues/" class="links">@SUMIT RODRIGUEZ</a>
+            <a href="https://www.linkedin.com/in/aadityasnaik" class="links">@MOUNIKA RAJA</a>
+        </div>
+    </div>
+
+    <div class="csv_bar">
+        <div id="upload_csv" class="csv_tabs">
+            <label for="fileInput">UPLOAD CSV</label>
+            <input type="file" id="fileInput" name="fileInput" accept=".csv" onchange="new APICaller().uploadCsv()">
+        </div>
+        <div id="show_graph" class="csv_tabs" onclick="new APICaller().showGraph()">SHOW GRAPH</div>
+        <div id="download_csv" class="csv_tabs">DOWNLOAD CSV</div>
+        <div id="reset" class="csv_tabs">RESET</div>
+    </div>
+    <div id="graph">
+        <span id="upload_csv_label">UPLOAD YOUR CSV TO GET PREDICTION</span>
+        <canvas id="prediction_result">
+        </canvas>
+    </div>
+    <div id="myDiv">
+
+    </div>
+</body>
+</html>
